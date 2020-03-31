@@ -97,3 +97,6 @@ class ParityInterface:
             print(err, flush=True)
             print(e, flush=True)
             raise ParityInterfaceException(err)
+
+    def some_functions(self):
+        pass

@@ -7,6 +7,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 from gold_coin.coin_info.models import TokenInfo
 from gold_coin.coin_info.serializers import TokenInfoSerializer
+from gold_coin.transfer.api import TransferMaker
 
 
 class CoinRequest(APIView):
@@ -44,4 +45,5 @@ class CoinRequest(APIView):
         validated_data = serializer.validate(request.data)
         coin = TokenInfo.objects.get(user_id=validated_data['user_id'])
         TokenInfoSerializer().update(coin, validated_data)
+        # TransferMaker.transfer(coin)
         return Response(TokenInfoSerializer().to_representation(coin))

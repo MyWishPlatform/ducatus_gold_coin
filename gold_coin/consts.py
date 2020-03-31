@@ -4,3 +4,8 @@ DECIMALS = {
     'DUC': 10 ** 8,
     'DUCX': 10 ** 18,
 }
+
+DUC_AMOUNT = {
+    '8GRAM': 2,
+    '10GRAM': 4
+}
