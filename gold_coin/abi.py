@@ -1,6 +1,6 @@
-json_abi = """"[
-    {
-        "inputs": [
+json_abi = """
+[
+    {"inputs": [
             {
                 "internalType": "address",
                 "name": "to",
