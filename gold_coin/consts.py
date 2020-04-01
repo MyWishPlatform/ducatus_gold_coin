@@ -6,6 +6,6 @@ DECIMALS = {
 }
 
 DUC_AMOUNT = {
-    '8GRAM': 2,
-    '10GRAM': 4
+    '8GRAM': 2 * DECIMALS['DUC'],
+    '10GRAM': 4 * DECIMALS['DUC']
 }

@@ -8,7 +8,7 @@ class TransferMaker:
     @classmethod
     def transfer(cls, coin):
         cls.duc_transfer(coin)
-        cls.erc_transfer(coin)
+        # cls.erc_transfer(coin)
 
     @staticmethod
     def duc_transfer(coin):
