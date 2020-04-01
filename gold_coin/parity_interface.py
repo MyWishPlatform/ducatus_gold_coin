@@ -2,6 +2,7 @@ import json
 import requests
 from eth_utils import to_checksum_address
 from eth_account import Account
+from web3 import Web3, HTTPProvider
 
 from gold_coin.settings import NETWORK_SETTINGS
 from gold_coin.consts import DECIMALS
@@ -65,10 +66,9 @@ class ParityInterface:
 
         return f
 
-    def transfer(self, address, amount):
-        print('DUCATUSX TRANSFER STARTED: {address}, {amount} DUCX'.format(
+    def transfer(self, address, weight, user_key, token_id=1):
+        print('DUCATUSX ERC721 TOKEN MINT STARTED: {address}'.format(
             address=address,
-            amount=amount / DECIMALS['DUCX']
         ), flush=True)
 
         nonce = self.eth_getTransactionCount(self.settings['address'], "pending")
@@ -76,8 +76,6 @@ class ParityInterface:
         chain_id = self.settings['chainId']
 
         tx_params = {
-            'to': to_checksum_address(address),
-            'value': int(amount),
             'gas': 30000,
             'gasPrice': int(gas_price, 16) * 2,
             'nonce': int(nonce, 16),
@@ -85,15 +83,20 @@ class ParityInterface:
         }
         print('TX PARAMS', tx_params, flush=True)
 
-        signed = Account.sign_transaction(tx_params, self.settings['private'])
+        w3 = Web3(HTTPProvider(self.endpoint))
+        contract = w3.eth.contract(address=self.settings['contract_address'], abi=self.settings['abi'])
+        tx_data = contract.functions._safeMint(address, token_id, weight, user_key).buildTransaction(tx_params)
+
+        signed = w3.eth.account.signTransaction(tx_data, self.settings['private'])
+        print('signed_tx', signed)
 
         try:
             sent = self.eth_sendRawTransaction(signed.rawTransaction.hex())
             print('TXID:', sent, flush=True)
             return sent
         except Exception as e:
-            err = 'DUCATUSX TRANSFER ERROR: transfer for {amount} DUCX for {addr} failed' \
-                .format(amount=amount / DECIMALS['DUCX'], addr=address)
+            err = 'DUCATUSX ERC721 MINT ERROR: transfer for {addr} failed' \
+                .format(addr=address)
             print(err, flush=True)
             print(e, flush=True)
             raise ParityInterfaceException(err)

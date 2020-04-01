@@ -26,11 +26,13 @@ class TransferMaker:
     @staticmethod
     def erc_transfer(coin):
         parity = ParityInterface()
-        tx_hash = parity.some_functions()
+        amount = 1
+        address = coin.ducatusx_address
+        tx_hash = parity.transfer(address, coin.token_type, coin.user_id)
 
         transfer_info = ErcTransfer()
         transfer_info.user = coin
-        transfer_info.amount = ...
+        transfer_info.amount = amount
         transfer_info.tx_hash = tx_hash
         transfer_info.save()
 
