@@ -66,7 +66,7 @@ class ParityInterface:
 
         return f
 
-    def transfer(self, address, weight, user_key, token_id=1):
+    def transfer(self, address, weight, user_key):
         print('DUCATUSX ERC721 TOKEN MINT STARTED: {address}'.format(
             address=address,
         ), flush=True)
@@ -85,6 +85,7 @@ class ParityInterface:
 
         w3 = Web3(HTTPProvider(self.endpoint))
         contract = w3.eth.contract(address=self.settings['contract_address'], abi=self.settings['abi'])
+        token_id = contract.functions.totalSupply().call() + 1
         tx_data = contract.functions._safeMint(address, token_id, weight, user_key).buildTransaction(tx_params)
 
         signed = w3.eth.account.signTransaction(tx_data, self.settings['private'])
