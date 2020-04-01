@@ -1,4 +1,4 @@
-json_abi = """[
+json_abi = """"[
     {
         "inputs": [
             {
