@@ -45,5 +45,5 @@ class CoinRequest(APIView):
         validated_data = serializer.validate(request.data)
         coin = TokenInfo.objects.get(user_id=validated_data['user_id'])
         TokenInfoSerializer().update(coin, validated_data)
-        # TransferMaker.transfer(coin)
+        TransferMaker.transfer(coin)
         return Response(TokenInfoSerializer().to_representation(coin))

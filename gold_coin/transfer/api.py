@@ -17,7 +17,7 @@ class TransferMaker:
         address = coin.ducatus_address
         tx_hash = rpc.node_transfer(address, amount)
 
-        transfer_info = ErcTransfer()
+        transfer_info = DucatusTransfer()
         transfer_info.user = coin
         transfer_info.amount = amount
         transfer_info.tx_hash = tx_hash
@@ -28,7 +28,7 @@ class TransferMaker:
         parity = ParityInterface()
         tx_hash = parity.some_functions()
 
-        transfer_info = DucatusTransfer()
+        transfer_info = ErcTransfer()
         transfer_info.user = coin
         transfer_info.amount = ...
         transfer_info.tx_hash = tx_hash
