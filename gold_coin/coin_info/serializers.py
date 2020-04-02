@@ -16,5 +16,6 @@ class TokenInfoSerializer(serializers.ModelSerializer):
             raise PermissionDenied(detail='user with id={user_id} not exist'.format(user_id=user_id))
         if coin.is_active:
             raise PermissionDenied(detail='user with id={user_id} has already registered'.format(user_id=user_id))
+        data['ducatusx_address'] = data['ducatusx_address'].lower()
         data['is_active'] = True
         return data
