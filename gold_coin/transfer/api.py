@@ -28,7 +28,8 @@ class TransferMaker:
         parity = ParityInterface()
         amount = 1
         address = coin.ducatusx_address
-        tx_hash = parity.transfer(address, coin.token_type, coin.user_id)
+        coin_weight = int(coin.token_type.split('GRAM')[0])
+        tx_hash = parity.transfer(address, coin_weight, coin.user_id)
 
         transfer_info = ErcTransfer()
         transfer_info.user = coin
