@@ -76,7 +76,7 @@ class ParityInterface:
         chain_id = self.settings['chainId']
 
         tx_params = {
-            'gas': 30000,
+            'gas': 500000,
             'gasPrice': int(gas_price, 16) * 2,
             'nonce': int(nonce, 16),
             'chainId': int(chain_id, 16)
