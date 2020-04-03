@@ -24,7 +24,7 @@ class CoinRequest(APIView):
         coin = TokenInfo.objects.filter(user_id=user_id, is_active=True).first()
         if coin:
             return Response(TokenInfoSerializer().to_representation(coin))
-        raise ValidationError('user with id={user_id} not exist'.format(user_id=user_id))
+        raise ValidationError('user with id={user_id} not registered'.format(user_id=user_id))
 
     @swagger_auto_schema(
         operation_description="coin register for raffle",
