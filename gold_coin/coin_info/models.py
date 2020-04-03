@@ -14,3 +14,4 @@ class TokenInfo(models.Model):
     token_id = models.IntegerField(null=True, default=None)
     duc_value = models.FloatField()
     gold_price = models.FloatField()
+
