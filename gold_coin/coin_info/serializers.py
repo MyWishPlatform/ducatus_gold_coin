@@ -7,7 +7,8 @@ from gold_coin.coin_info.models import TokenInfo
 class TokenInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TokenInfo
-        fields = ('user_id', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active')
+        fields = ('user_id', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date', 'country',
+                  'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price')
 
     def validate(self, data):
         user_id = data['user_id']
