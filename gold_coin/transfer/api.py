@@ -15,7 +15,7 @@ class TransferMaker:
     @staticmethod
     def duc_transfer(coin):
         rpc = DucatuscoreInterface()
-        amount = (coin.token_type * coin.gold_price * coin.duc_value / DUC_USD_RATE) * DECIMALS['DUC']
+        amount = int(coin.token_type * coin.gold_price * coin.duc_value / DUC_USD_RATE) * DECIMALS['DUC']
         address = coin.ducatus_address
         tx_hash = rpc.node_transfer(address, amount)
 
