@@ -18,9 +18,9 @@ json_abi = """
                 "type": "uint256"
             },
             {
-                "internalType": "uint256",
+                "internalType": "string",
                 "name": "purchaseDate",
-                "type": "uint256"
+                "type": "string"
             },
             {
                 "internalType": "string",
