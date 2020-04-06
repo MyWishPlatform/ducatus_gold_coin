@@ -5,7 +5,4 @@ DECIMALS = {
     'DUCX': 10 ** 18,
 }
 
-DUC_AMOUNT = {
-    '8GRAM': 2 * DECIMALS['DUC'],
-    '10GRAM': 4 * DECIMALS['DUC']
-}
+DUC_USD_RATE = 0.05

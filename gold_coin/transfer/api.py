@@ -3,7 +3,7 @@ import datetime
 from gold_coin.transfer.models import DucatusTransfer, ErcTransfer
 from gold_coin.litecoin_rpc import DucatuscoreInterface
 from gold_coin.parity_interface import ParityInterface
-from gold_coin.consts import DUC_AMOUNT
+from gold_coin.consts import DUC_USD_RATE, DECIMALS
 
 
 class TransferMaker:
@@ -15,7 +15,7 @@ class TransferMaker:
     @staticmethod
     def duc_transfer(coin):
         rpc = DucatuscoreInterface()
-        amount = DUC_AMOUNT[coin.token_type]
+        amount = (coin.token_type * coin.gold_price * coin.duc_value / DUC_USD_RATE) * DECIMALS['DUC']
         address = coin.ducatus_address
         tx_hash = rpc.node_transfer(address, amount)
 
@@ -30,7 +30,7 @@ class TransferMaker:
         parity = ParityInterface()
         amount = 1
         address = coin.ducatusx_address
-        coin_weight = int(coin.token_type.split('GRAM')[0])
+        coin_weight = coin.token_type
         tx_hash, token_id = parity.transfer(address, coin_weight, coin.user_id)
 
         coin.mint_date = str(datetime.datetime.now())
