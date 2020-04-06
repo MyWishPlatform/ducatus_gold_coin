@@ -18,6 +18,21 @@ json_abi = """
                 "type": "uint256"
             },
             {
+                "internalType": "uint256",
+                "name": "purchaseDate",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "origin",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "certifiedAssayer",
+                "type": "string"
+            },
+            {
                 "internalType": "bytes",
                 "name": "key",
                 "type": "bytes"
@@ -28,6 +43,7 @@ json_abi = """
         "stateMutability": "nonpayable",
         "type": "function"
     },
+
     {
         "inputs": [],
         "name": "totalSupply",
