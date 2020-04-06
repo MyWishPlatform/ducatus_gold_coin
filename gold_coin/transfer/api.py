@@ -1,3 +1,5 @@
+import datetime
+
 from gold_coin.transfer.models import DucatusTransfer, ErcTransfer
 from gold_coin.litecoin_rpc import DucatuscoreInterface
 from gold_coin.parity_interface import ParityInterface
@@ -29,7 +31,11 @@ class TransferMaker:
         amount = 1
         address = coin.ducatusx_address
         coin_weight = int(coin.token_type.split('GRAM')[0])
-        tx_hash = parity.transfer(address, coin_weight, coin.user_id)
+        tx_hash, token_id = parity.transfer(address, coin_weight, coin.user_id)
+
+        coin.mint_date = str(datetime.datetime.now())
+        coin.token_id = token_id
+        coin.save()
 
         transfer_info = ErcTransfer()
         transfer_info.user = coin

@@ -95,7 +95,7 @@ class ParityInterface:
         try:
             sent = self.eth_sendRawTransaction(signed.rawTransaction.hex())
             print('TXID:', sent, flush=True)
-            return sent
+            return sent, token_id
         except Exception as e:
             err = 'DUCATUSX ERC721 MINT ERROR: transfer for {addr} failed' \
                 .format(addr=address)
