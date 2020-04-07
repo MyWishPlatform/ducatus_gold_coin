@@ -12,14 +12,14 @@ class TokenInfoSerializer(serializers.ModelSerializer):
                   'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price')
 
     def validate(self, data):
-        public_code = data['public_code']
-        coin = TokenInfo.objects.filter(public_code=public_code).first()
+        secret_code = data['secret_code']
+        coin = TokenInfo.objects.filter(secret_code=secret_code).first()
         if not coin:
             raise PermissionDenied(
-                detail='user with public_code={public_code} not exist'.format(public_code=public_code))
+                detail='user with secret_code={secret_code} not exist'.format(secret_code=secret_code))
         if coin.is_active:
             raise PermissionDenied(
-                detail='user with public_code={public_code} has already registered'.format(public_code=public_code))
+                detail='user with secret_code={secret_code} has already registered'.format(secret_code=secret_code))
         data['ducatusx_address'] = data['ducatusx_address'].lower()
         data['is_active'] = True
         return data
