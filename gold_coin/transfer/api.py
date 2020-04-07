@@ -32,7 +32,7 @@ class TransferMaker:
         address = coin.ducatusx_address
         coin_weight = coin.token_type
         tx_hash, token_id = parity.transfer(address, coin_weight, coin.secret_code, coin.purchase_date, coin.country,
-                                            coin.certified_assayer)
+                                            coin.certified_assayer, coin.public_code)
 
         coin.mint_date = str(datetime.datetime.now())
         coin.token_id = token_id

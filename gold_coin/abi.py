@@ -36,6 +36,11 @@ json_abi = """
                 "internalType": "bytes",
                 "name": "key",
                 "type": "bytes"
+            },
+            {
+                "internalType": "string",
+                "name": "pubKey",
+                "type": "string"
             }
         ],
         "name": "_mint",
