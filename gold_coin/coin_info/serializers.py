@@ -8,16 +8,18 @@ from gold_coin.transfer.models import DucatusTransfer, ErcTransfer
 class TokenInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TokenInfo
-        fields = ('user_id', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date', 'country',
-                  'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price')
+        fields = ('public_code', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date',
+                  'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price')
 
     def validate(self, data):
-        user_id = data['user_id']
-        coin = TokenInfo.objects.filter(user_id=user_id).first()
+        public_code = data['public_code']
+        coin = TokenInfo.objects.filter(public_code=public_code).first()
         if not coin:
-            raise PermissionDenied(detail='user with id={user_id} not exist'.format(user_id=user_id))
+            raise PermissionDenied(
+                detail='user with public_code={public_code} not exist'.format(public_code=public_code))
         if coin.is_active:
-            raise PermissionDenied(detail='user with id={user_id} has already registered'.format(user_id=user_id))
+            raise PermissionDenied(
+                detail='user with public_code={public_code} has already registered'.format(public_code=public_code))
         data['ducatusx_address'] = data['ducatusx_address'].lower()
         data['is_active'] = True
         return data
@@ -36,4 +38,3 @@ class TokenInfoSerializer(serializers.ModelSerializer):
         })
 
         return repr_instance
-

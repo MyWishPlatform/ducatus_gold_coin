@@ -13,26 +13,26 @@ from gold_coin.transfer.api import TransferMaker
 class CoinRequest(APIView):
 
     @swagger_auto_schema(
-        operation_description='get coin info using unique user_id',
+        operation_description='get coin info using unique public_code',
         manual_parameters=[
-            openapi.Parameter('user_id', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_STRING)
+            openapi.Parameter('public_code', openapi.IN_QUERY, description="required param", type=openapi.TYPE_STRING)
         ],
         responses={200: TokenInfoSerializer()},
     )
     def get(self, request):
-        user_id = request.query_params['user_id']
-        coin = TokenInfo.objects.filter(user_id=user_id, is_active=True).first()
+        public_code = request.query_params['public_code']
+        coin = TokenInfo.objects.filter(public_code=public_code, is_active=True).first()
         if coin:
             return Response(TokenInfoSerializer().to_representation(coin))
-        raise ValidationError('user with id={user_id} not registered'.format(user_id=user_id))
+        raise ValidationError('user with public_code={public_code} not registered'.format(public_code=public_code))
 
     @swagger_auto_schema(
         operation_description="coin register for raffle",
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
-            required=['user_id', 'ducatus_address', 'ducatusx_address'],
+            required=['secret_code', 'ducatus_address', 'ducatusx_address'],
             properties={
-                'user_id': openapi.Schema(type=openapi.TYPE_STRING),
+                'secret_code': openapi.Schema(type=openapi.TYPE_STRING),
                 'ducatus_address': openapi.Schema(type=openapi.TYPE_STRING),
                 'ducatusx_address': openapi.Schema(type=openapi.TYPE_STRING)
             },
@@ -43,7 +43,7 @@ class CoinRequest(APIView):
         print('request data', request.data, flush=True)
         serializer = TokenInfoSerializer()
         validated_data = serializer.validate(request.data)
-        coin = TokenInfo.objects.get(user_id=validated_data['user_id'])
+        coin = TokenInfo.objects.get(secret_code=validated_data['secret_code'])
         TokenInfoSerializer().update(coin, validated_data)
         TransferMaker.transfer(coin)
         return Response(TokenInfoSerializer().to_representation(coin))
