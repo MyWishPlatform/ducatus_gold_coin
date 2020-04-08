@@ -5,16 +5,28 @@ from gold_coin.coin_info.models import TokenInfo
 from gold_coin.transfer.models import DucatusTransfer, ErcTransfer
 
 
+class DucatusTransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DucatusTransfer
+        fields = ['amount', 'tx_hash', 'transfer_status']
+
+
+class ErcTransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DucatusTransfer
+        fields = ['amount', 'tx_hash', 'transfer_status']
+
+
 class TokenInfoSerializer(serializers.ModelSerializer):
+    duc_transfer = DucatusTransferSerializer()
+    erc_transfer = ErcTransferSerializer()
+
     class Meta:
         model = TokenInfo
         fields = ('public_code', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date',
                   'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price',
-                  'production_date', 'ducatustransfer', 'erctransfer')
-        extra_kwargs = {
-            'ducatustransfer': {'read_only': True},
-            'erctransfer': {'read_only': True}
-        }
+                  'production_date', 'duc_transfer', 'erc_transfer')
+
 
     def validate(self, data):
         secret_code = data['secret_code']
