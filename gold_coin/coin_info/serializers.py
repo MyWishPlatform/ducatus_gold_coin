@@ -12,8 +12,8 @@ class TokenInfoSerializer(serializers.ModelSerializer):
                   'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price',
                   'production_date', 'ducatustransfer', 'erctransfer')
         extra_kwargs = {
-            'ducatustransfer': {'read_only': True, 'many': True},
-            'erctransfer': {'read_only': True, 'many': True}
+            'ducatustransfer': {'read_only': True},
+            'erctransfer': {'read_only': True}
         }
 
     def validate(self, data):
