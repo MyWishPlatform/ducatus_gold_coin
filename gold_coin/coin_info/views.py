@@ -21,10 +21,10 @@ class CoinRequest(APIView):
     )
     def get(self, request):
         public_code = request.query_params['public_code']
-        coin = TokenInfo.objects.filter(public_code=public_code, is_active=True).first()
+        coin = TokenInfo.objects.filter(public_code=public_code).first()
         if coin:
             return Response(TokenInfoSerializer().to_representation(coin))
-        raise ValidationError('user with public_code={public_code} not registered'.format(public_code=public_code))
+        raise ValidationError('coin with public_code={public_code} not exist'.format(public_code=public_code))
 
     @swagger_auto_schema(
         operation_description="coin register for raffle",
