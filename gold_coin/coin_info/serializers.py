@@ -9,7 +9,8 @@ class TokenInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TokenInfo
         fields = ('public_code', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date',
-                  'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price')
+                  'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price',
+                  'production_date')
 
     def validate(self, data):
         secret_code = data['secret_code']

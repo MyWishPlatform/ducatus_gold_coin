@@ -12,6 +12,7 @@ class TokenInfo(models.Model):
     country = models.CharField(max_length=100)
     certified_assayer = models.CharField(max_length=100)
     purchase_date = models.CharField(max_length=50)
+    production_date = models.CharField(max_length=50)
     token_id = models.IntegerField(null=True, default=None)
     duc_value = models.FloatField()
     gold_price = models.FloatField()
