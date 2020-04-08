@@ -18,14 +18,14 @@ class ErcTransferSerializer(serializers.ModelSerializer):
 
 
 class TokenInfoSerializer(serializers.ModelSerializer):
-    duc_transfer = DucatusTransferSerializer()
-    erc_transfer = ErcTransferSerializer()
+    ducatustransfer = DucatusTransferSerializer()
+    erctransfer = ErcTransferSerializer()
 
     class Meta:
         model = TokenInfo
         fields = ('public_code', 'ducatus_address', 'ducatusx_address', 'token_type', 'is_active', 'mint_date',
                   'country', 'certified_assayer', 'purchase_date', 'token_id', 'duc_value', 'gold_price',
-                  'production_date', 'duc_transfer', 'erc_transfer')
+                  'production_date', 'ducatustransfer', 'erctransfer')
 
 
     def validate(self, data):
