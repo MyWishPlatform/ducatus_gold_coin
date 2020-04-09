@@ -29,7 +29,7 @@ class TokenInfoSerializer(serializers.ModelSerializer):
 
 
     def validate(self, data):
-        secret_code = data['secret_code']
+        secret_code = self.key_format(data['secret_code'])
         coin = TokenInfo.objects.filter(secret_code=secret_code).first()
         if not coin:
             raise ValidationError(
@@ -40,3 +40,7 @@ class TokenInfoSerializer(serializers.ModelSerializer):
         data['ducatusx_address'] = data['ducatusx_address'].lower()
         data['is_active'] = True
         return data
+
+    @staticmethod
+    def key_format(key):
+        return ''.join(key.split('-'))

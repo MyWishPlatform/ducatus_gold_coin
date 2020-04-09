@@ -122,3 +122,4 @@ settings_local.py
 /merchant_api/settings_local.py
 gunicorn.conf.py
 db.sqlite3
+.vscode/

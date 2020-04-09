@@ -20,7 +20,7 @@ class CoinRequest(APIView):
         responses={200: TokenInfoSerializer()},
     )
     def get(self, request):
-        public_code = request.query_params['public_code']
+        public_code = TokenInfoSerializer.key_format(request.query_params['public_code'])
         coin = TokenInfo.objects.filter(public_code=public_code).first()
         if coin:
             return Response(TokenInfoSerializer().to_representation(coin))
