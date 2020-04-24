@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, NotFound
 
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -24,7 +24,7 @@ class CoinRequest(APIView):
         coin = TokenInfo.objects.filter(public_code=public_code).first()
         if coin:
             return Response(TokenInfoSerializer().to_representation(coin))
-        raise ValidationError('coin with public_code={public_code} not exist'.format(public_code=public_code))
+        raise NotFound('coin with public_code={public_code} not exist'.format(public_code=public_code))
 
     @swagger_auto_schema(
         operation_description="coin register for raffle",

@@ -1,8 +1,9 @@
 import datetime
+from rest_framework.exceptions import ValidationError
 
 from gold_coin.transfer.models import DucatusTransfer, ErcTransfer
-from gold_coin.litecoin_rpc import DucatuscoreInterface
-from gold_coin.parity_interface import ParityInterface
+from gold_coin.litecoin_rpc import DucatuscoreInterface, DucatuscoreInterfaceException
+from gold_coin.parity_interface import ParityInterface, ParityInterfaceException
 from gold_coin.consts import DUC_USD_RATE, DECIMALS
 
 
@@ -17,7 +18,11 @@ class TransferMaker:
         rpc = DucatuscoreInterface()
         amount = int(coin.token_type * coin.gold_price * coin.duc_value / DUC_USD_RATE) * DECIMALS['DUC']
         address = coin.ducatus_address
-        tx_hash = rpc.node_transfer(address, amount)
+
+        try:
+            tx_hash = rpc.node_transfer(address, amount)
+        except DucatuscoreInterfaceException as err:
+            raise ValidationError(detail=str(err))
 
         transfer_info = DucatusTransfer()
         transfer_info.user = coin
@@ -31,8 +36,12 @@ class TransferMaker:
         amount = 1
         address = coin.ducatusx_address
         coin_weight = coin.token_type
-        tx_hash, token_id = parity.transfer(address, coin_weight, coin.secret_code, coin.purchase_date, coin.country,
-                                            coin.certified_assayer, coin.public_code)
+
+        try:
+            tx_hash, token_id = parity.transfer(address, coin_weight, coin.secret_code, coin.purchase_date,
+                                                coin.country, coin.certified_assayer, coin.public_code)
+        except ParityInterfaceException as err:
+            raise ValidationError(detail=str(err))
 
         coin.mint_date = str(datetime.datetime.now())
         coin.token_id = token_id

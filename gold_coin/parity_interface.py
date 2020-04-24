@@ -83,16 +83,16 @@ class ParityInterface:
         }
         print('TX PARAMS', tx_params, flush=True)
 
-        w3 = Web3(HTTPProvider(self.endpoint))
-        contract = w3.eth.contract(address=self.settings['contract_address'], abi=self.settings['abi'])
-        token_id = contract.functions.totalSupply().call() + 1
-        tx_data = contract.functions._mint(to_checksum_address(address), token_id, weight, purchase_date, origin,
-                                           certified_assayer, '0x' + user_key, public_code).buildTransaction(tx_params)
-
-        signed = w3.eth.account.signTransaction(tx_data, self.settings['private'])
-        print('signed_tx', signed)
-
         try:
+            w3 = Web3(HTTPProvider(self.endpoint))
+            contract = w3.eth.contract(address=self.settings['contract_address'], abi=self.settings['abi'])
+            token_id = contract.functions.totalSupply().call() + 1
+            tx_data = contract.functions._mint(to_checksum_address(address), token_id, weight, purchase_date, origin,
+                                               certified_assayer, '0x' + user_key, public_code).buildTransaction(tx_params)
+
+            signed = w3.eth.account.signTransaction(tx_data, self.settings['private'])
+            print('signed_tx', signed)
+
             sent = self.eth_sendRawTransaction(signed.rawTransaction.hex())
             print('TXID:', sent, flush=True)
             return sent, token_id
